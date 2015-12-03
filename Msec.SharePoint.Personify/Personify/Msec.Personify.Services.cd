@@ -1,0 +1,200 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
+  <Class Name="Msec.Personify.Services.PersonifySsoService">
+    <Position X="0.5" Y="3.25" Width="5.5" />
+    <Members>
+      <Field Name="_credentials" Hidden="true" />
+      <Field Name="_factory" Hidden="true" />
+      <Method Name="CreatePersonifySsoService" Hidden="true" />
+      <Method Name="Execute" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAiBAAAAAQQEIQAAAAAAAgEAACEAEACABAAAAQ=</HashCode>
+      <FileName>Services\PersonifySsoService.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Msec.Personify.Services.WebPersonifyUniversalService">
+    <Position X="0.5" Y="14" Width="7" />
+    <Members>
+      <Field Name="_credentials" Hidden="true" />
+      <Field Name="_organizationId" Hidden="true" />
+      <Field Name="_organizationUnitId" Hidden="true" />
+      <Field Name="_serviceClient" Hidden="true" />
+      <Field Name="_serviceUrl" Hidden="true" />
+      <Field Name="_token" Hidden="true" />
+      <Method Name="GetCodesFor" Hidden="true" />
+      <Field Name="MaximumTimeout" Hidden="true" />
+      <Field Name="PositionCodeName" Hidden="true" />
+      <Method Name="RefreshToken" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAABQgAAQAQAqAIAAAABAAEAAgAAAACAAEACIAEAAAA=</HashCode>
+      <FileName>Services\WebPersonifyUniversalService.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Msec.Personify.Services.PersonifyUniversalService">
+    <Position X="0.5" Y="10" Width="7" />
+    <Members>
+      <Field Name="_factory" Hidden="true" />
+      <Method Name="CreatePersonifyUniversalService" Hidden="true" />
+      <Method Name="Execute" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>QAAAQgAAAAAAoAcQEAAAAAAEAAAAAAAgCAACAAAhAAA=</HashCode>
+      <FileName>Services\PersonifyUniversalService.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Msec.Personify.Services.VendorCredentials">
+    <Position X="0.5" Y="0.5" Width="4" />
+    <Members>
+      <Field Name="_block" Hidden="true" />
+      <Field Name="_password" Hidden="true" />
+      <Field Name="_userName" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAQEAAAAAAAAAIAAgAAAAAAAAAAAAIACAQIAAAAAAAA=</HashCode>
+      <FileName>Services\VendorCredentials.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Msec.Personify.Services.WebPersonifySsoService">
+    <Position X="0.5" Y="7.5" Width="5.5" />
+    <Members>
+      <Field Name="_service" Hidden="true" />
+      <Method Name="ExecuteServiceCall" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAiAAAABAAQAAABAAAAAAgAAACAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\WebPersonifySsoService.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Msec.Personify.Services.CommitteeMemberData">
+    <Position X="6.75" Y="3.5" Width="3.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAIACAAEAIQAAAAAAMgAAABAAAAAAAAAAgAAAA=</HashCode>
+      <FileName>Services\CommitteeMemberData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Msec.Personify.Services.CustomerData">
+    <Position X="10.75" Y="3.5" Width="3.75" />
+    <Members>
+      <Field Name="_addresses" Hidden="true" />
+      <Method Name="EnsureAddresses" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAZAwEAAIAIAAEEAAAAQAAACEARIwAgBQSAAAgIIABg=</HashCode>
+      <FileName>Services\CustomerData.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Addresses" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Msec.Personify.Services.Constraint">
+    <Position X="15.5" Y="10" Width="4.75" />
+    <Members>
+      <Field Name="_constraintOperator" Hidden="true" />
+      <Field Name="_fieldName" Hidden="true" />
+      <Field Name="_value" Hidden="true" />
+      <Property Name="QueryOperatorEnum" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>ABAAABAAAAAAAAAEAAAAAAAAAACBAAAEAAAgAAEEAAA=</HashCode>
+      <FileName>Services\Constraint.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="ConstraintOperator" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Msec.Personify.Services.CustomerAddressData">
+    <Position X="17.5" Y="3.5" Width="3.75" />
+    <Members>
+      <Field Name="_detail" Hidden="true" />
+      <Field Name="_isDetailLoaded" Hidden="true" />
+      <Method Name="EnsureDetail" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AACCQAAAAAAAAAAIIACAAAACAAMAAAAAAQAABAAQCIE=</HashCode>
+      <FileName>Services\CustomerAddressData.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Detail" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Msec.Personify.Services.CustomerAddressDetailData">
+    <Position X="22" Y="3.5" Width="4" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABA=</HashCode>
+      <FileName>Services\CustomerAddressDetailData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Msec.Personify.Services.ResultExtensions">
+    <Position X="17.5" Y="0.5" Width="3" />
+    <Members>
+      <Field Name="ExceptionTypeAndMessageSeparator" Hidden="true" />
+      <Method Name="GetTypeAndMessage" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAgAAQAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAE=</HashCode>
+      <FileName>Services\ResultExtensions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Msec.Personify.Services.SecurityTokenService">
+    <Position X="8" Y="10.25" Width="5.5" />
+    <Members>
+      <Field Name="_factory" Hidden="true" />
+      <Field Name="BearerKeyType" Hidden="true" />
+      <Field Name="IssueRequestType" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAEAAAAAEQEAAAAAAAAEAAAAAAAAACAAgAAAA=</HashCode>
+      <FileName>Services\SecurityTokenService.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Msec.Personify.Services.ServiceDataObject">
+    <Position X="10.75" Y="0.5" Width="3.75" />
+    <Members>
+      <Field Name="_serviceObjectProperties" Hidden="true" />
+      <Field Name="_serviceObjectPropertiesDoor" Hidden="true" />
+      <Field Name="_values" Hidden="true" />
+      <Method Name="GetPublicProperties" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAACAAAAIAAAAAAACAQABQAAAAAAAABAAAAAAAgAACA=</HashCode>
+      <FileName>Services\ServiceDataObject.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Msec.Personify.Services.SharePointSecurityTokenServiceTrustChannelFactory">
+    <Position X="20.25" Y="12.25" Width="4.25" />
+    <Members>
+      <Field Name="_door" Hidden="true" />
+      <Field Name="_instance" Hidden="true" />
+      <Field Name="_wsTrustChannelFactory" Hidden="true" />
+      <Method Name="CreateBindingFromConfiguration" Hidden="true" />
+      <Method Name="CreateEndpointAddressFromLocalFarm" Hidden="true" />
+      <Method Name="SharePointSecurityTokenServiceTrustChannelFactory" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>QAAEAAIAAAAAAAAAAAABgAAAAAAAEAAAQAAAAAAAAAI=</HashCode>
+      <FileName>Services\SharePointSecurityTokenServiceTrustChannelFactory.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Msec.Personify.Services.WebSecurityTokenService">
+    <Position X="8" Y="12.5" Width="5.5" />
+    <Members>
+      <Field Name="_trustChannel" Hidden="true" />
+      <Method Name="WebSecurityTokenService" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAAAAAAAAABAAAAAEAAAAAAAAAAAAAACAA=</HashCode>
+      <FileName>Services\WebSecurityTokenService.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="Msec.Personify.Services.ConstraintOperator">
+    <Position X="15.5" Y="12.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>ACCAAAAAAAAAAAAAgAAAIAAAAAAAAAAAAAAAIAUAACA=</HashCode>
+      <FileName>Services\ConstraintOperator.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Tahoma" Size="8.25" />
+</ClassDiagram>

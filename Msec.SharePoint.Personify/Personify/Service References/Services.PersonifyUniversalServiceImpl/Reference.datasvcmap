@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="5d70958f-45bc-4031-90b4-0d511406777b" xmlns="urn:schemas-microsoft-com:xml-dataservicemap">
+  <MetadataSources>
+    <MetadataSource Address="http://dev-my.msec.org/DataServices/PersonifyDataMSEC.svc" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="service.edmx" MetadataType="Edmx" ID="dd6fe37a-b434-45ab-89ce-d59b974f0bf7" SourceId="1" SourceUrl="http://dev-my.msec.org/DataServices/PersonifyDataMSEC.svc" />
+  </Metadata>
+  <Extensions />
+  <Parameters>
+    <Parameter Name="UseDataServiceCollection" Value="false" />
+    <Parameter Name="Version" Value="1.0" />
+  </Parameters>
+</ReferenceGroup>

@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
+  <Class Name="Msec.Personify.Web.PersonifyMembershipProvider">
+    <Position X="0.5" Y="0.5" Width="11.5" />
+    <Members>
+      <Field Name="_applicationName" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AQQAAAAAAQAEgQiMEcAEAAAQAQIAAAICHAEAAAkAAAQ=</HashCode>
+      <FileName>Web\PersonifyMembershipProvider.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Msec.Personify.Web.PersonifyUserExtensions">
+    <Position X="5.25" Y="6.75" Width="7" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>Web\PersonifyUserExtensions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Msec.Personify.Web.PersonifyRoleProvider">
+    <Position X="0.5" Y="6.75" Width="4.25" />
+    <Members>
+      <Field Name="_applicationName" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>QAAEEAAwAAAEAQAAAEAABAAAAAAAAAIAAAAEAAEQAAA=</HashCode>
+      <FileName>Web\PersonifyRoleProvider.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Msec.Personify.Web.PersonifySsoContext">
+    <Position X="9.75" Y="8.5" Width="3" />
+    <Members>
+      <Field Name="_httpContext" Hidden="true" />
+      <Property Name="AuthenticateRequestCalled" Hidden="true" />
+      <Property Name="CurrentSessionSecurityToken" Hidden="true" />
+      <Property Name="IsUnauthorizedRequest" Hidden="true" />
+      <Method Name="RedirectToLoginPage" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAQAAAAACACAAAAABAACAAAAACAAAAA=</HashCode>
+      <FileName>Web\PersonifySsoContext.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Msec.Personify.Web.PersonifySsoModule" BaseTypeListCollapsed="true">
+    <Position X="5.25" Y="8.5" Width="4.25" />
+    <Members>
+      <Method Name="HttpApplication_AuthenticateRequest" Hidden="true" />
+      <Method Name="HttpApplication_EndRequest" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AECAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAA=</HashCode>
+      <FileName>Web\PersonifySsoModule.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Font Name="Tahoma" Size="8.25" />
+</ClassDiagram>

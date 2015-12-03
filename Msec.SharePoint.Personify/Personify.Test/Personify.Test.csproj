@@ -1,0 +1,122 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{7730DC35-1E5A-4BA9-BE9A-E38D823EE457}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Msec.Personify</RootNamespace>
+    <AssemblyName>Msec.Personify.Test</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.IdentityModel">
+      <HintPath>..\..\Bin\Microsoft.IdentityModel.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.IdentityModel" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Web" />
+  </ItemGroup>
+  <ItemGroup>
+    <CodeAnalysisDependentAssemblyPaths Condition=" '$(VS100COMNTOOLS)' != '' " Include="$(VS100COMNTOOLS)..\IDE\PrivateAssemblies">
+      <Visible>False</Visible>
+    </CodeAnalysisDependentAssemblyPaths>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Configuration\MockPersonifyConfigurationProvider.cs" />
+    <Compile Include="Configuration\PersonifyConfigurationTests.cs" />
+    <Compile Include="Configuration\PersonifySsoConfigurationSectionTests.cs" />
+    <Compile Include="Configuration\PersonifyUniversalConfigurationSectionTests.cs" />
+    <Compile Include="Services\ConstraintTests.cs" />
+    <Compile Include="Services\CustomerAddressDataTests.cs" />
+    <Compile Include="Services\MockPersonifyUniversalServiceProvider.cs" />
+    <Compile Include="Services\CustomerDataTests.cs" />
+    <Compile Include="Services\MockPersonifyUniversalService.cs" />
+    <Compile Include="Services\MockSecurityTokenService.cs" />
+    <Compile Include="Services\MockSecurityTokenServiceProvider.cs" />
+    <Compile Include="Services\MockServiceDataObject.cs" />
+    <Compile Include="Services\MockServiceObject.cs" />
+    <Compile Include="Services\PersonifyUniversalServiceTests.cs" />
+    <Compile Include="Services\ResultExtensionsTests.cs" />
+    <Compile Include="Services\SecurityTokenServiceTests.cs" />
+    <Compile Include="Services\ServiceDataObjectTests.cs" />
+    <Compile Include="Web\HttpApplicationProxy.cs" />
+    <Compile Include="Web\PersonifySsoContextTests.cs" />
+    <Compile Include="Web\PersonifySsoModuleTests.cs" />
+    <Compile Include="ReflectionExtensions.cs" />
+    <Compile Include="Services\CommitteeMemberDataTests.cs" />
+    <Compile Include="Services\WebPersonifyUniversalServiceTests.cs" />
+    <Compile Include="Services\MockPersonifySsoServiceProvider.cs" />
+    <Compile Include="CustomerTokenTests.cs" />
+    <Compile Include="Web\HttpContextProxy.cs" />
+    <Compile Include="RandomExtensions.cs" />
+    <Compile Include="Services\MockPersonifySsoService.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\PersonifySsoServiceTests.cs" />
+    <Compile Include="Services\VendorCredentialsTests.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Common.Test\Common.Test.csproj">
+      <Project>{D9C4A292-F1EB-431A-9613-B5E6FC0A396D}</Project>
+      <Name>Common.Test</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{A8299BC4-40C1-4051-A0B8-466B5FF61CC5}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Personify\Personify.csproj">
+      <Project>{412E3678-C5BC-4A84-A9E7-93A125B18AC6}</Project>
+      <Name>Personify</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

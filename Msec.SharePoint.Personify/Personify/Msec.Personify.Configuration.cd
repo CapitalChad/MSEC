@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
+  <Class Name="Msec.Personify.Configuration.PersonifyConfiguration">
+    <Position X="8.5" Y="0.5" Width="5.5" />
+    <Members>
+      <Field Name="_personifySsoConfigurationSection" Hidden="true" />
+      <Field Name="_personifyUniversalConfigurationSection" Hidden="true" />
+      <Method Name="PersonifyConfiguration" Hidden="true" />
+    </Members>
+    <NestedTypes>
+      <Class Name="Msec.Personify.Configuration.PersonifyConfiguration.Nested" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Configuration\PersonifyConfiguration.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAAEABCAAQKAAAAAAAAAAgQAEEAEBQBAAAIACAAg=</HashCode>
+      <FileName>Configuration\PersonifyConfiguration.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Msec.Personify.Configuration.PersonifyUniversalConfigurationSection">
+    <Position X="4.25" Y="3.5" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACACAAAAAAAAAAAAQAAAAACAQAAAAACAAg=</HashCode>
+      <FileName>Configuration\PersonifyUniversalConfigurationSection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Msec.Personify.Configuration.PersonifySsoConfigurationSection">
+    <Position X="0.5" Y="3.5" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABACAAIAAAAAAAAAAgAAEAAEBAAAAAAAAAAg=</HashCode>
+      <FileName>Configuration\PersonifySsoConfigurationSection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="System.Configuration.ConfigurationSection">
+    <Position X="1" Y="0.5" Width="6.25" />
+    <TypeIdentifier />
+  </Class>
+  <Font Name="Tahoma" Size="8.25" />
+</ClassDiagram>

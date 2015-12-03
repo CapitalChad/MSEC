@@ -1,0 +1,27 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Msec.Personify.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="Ilta_Personify_ImsWebService_IMService" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">http://msec.ebiz.uapps.net/PersonifyIMSWebService/IMService.asmx</Value>
+    </Setting>
+    <Setting Name="Ilta_Personify_OrganizationId" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">MSEC</Value>
+    </Setting>
+    <Setting Name="Ilta_Personify_OrganizationUnitId" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">MSEC</Value>
+    </Setting>
+    <Setting Name="Ilta_Personify_PersonifySso_service" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">https://msec.ebiz.uapps.net/login/webservice/service.asmx</Value>
+    </Setting>
+    <Setting Name="Ilta_Personify_Services_UniversalWebServiceImpl_PersonifyWebService" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">http://msec.ebiz.uapps.net/PersonifyWebService/UniversalWebService/default.asmx</Value>
+    </Setting>
+    <Setting Name="Awwa_Personify_ImsWebService_IMService" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://msec.ebiz.uapps.net/PersonifyIMSWebService/IMService.asmx</Value>
+    </Setting>
+    <Setting Name="Awwa_Personify_PersonifySso_service" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">https://msec.ebiz.uapps.net/login/webservice/service.asmx</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
