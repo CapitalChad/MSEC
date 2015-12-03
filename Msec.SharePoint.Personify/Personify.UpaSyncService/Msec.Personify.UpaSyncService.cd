@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
+  <Class Name="Msec.Personify.UpaSyncService.CustomerDataExtensions">
+    <Position X="7.5" Y="0.5" Width="4" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAQIAA=</HashCode>
+      <FileName>CustomerDataExtensions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Msec.Personify.UpaSyncService.ExecuteFinishedEventArgs">
+    <Position X="0.5" Y="3" Width="4.25" />
+    <Members>
+      <Field Name="_error" Hidden="true" />
+      <Field Name="_finishedState" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAAAAAAQAAAAAAAAAAAAAAIAAAAAAAAAAAAgA=</HashCode>
+      <FileName>ExecuteFinishedEventArgs.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="FinishedState" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Msec.Personify.UpaSyncService.ProfilePropertyNamesConfigurationElement">
+    <Position X="5.5" Y="6.75" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAIAAAAAAIIAAQAAACAABAAEAAACAABAAYAAg=</HashCode>
+      <FileName>ProfilePropertyNamesConfigurationElement.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Msec.Personify.UpaSyncService.UpaSyncConfiguration">
+    <Position X="10.25" Y="3.5" Width="5" />
+    <Members>
+      <Field Name="_upaSyncConfigurationSection" Hidden="true" />
+      <Method Name="UpaSyncConfiguration" Hidden="true" />
+    </Members>
+    <NestedTypes>
+      <Class Name="Msec.Personify.UpaSyncService.UpaSyncConfiguration.Nested" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>UpaSyncConfiguration.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>QAAgAAAAEAwgCAAEEAABAADFgEQBAAQAQBAAEIAAAAQ=</HashCode>
+      <FileName>UpaSyncConfiguration.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Msec.Personify.UpaSyncService.UpaSyncConfigurationSection">
+    <Position X="5.5" Y="3.5" Width="4.5" />
+    <TypeIdentifier>
+      <HashCode>QAEAAAAAEACgAAAAAAAAAABAAEABAAAAAAAAAAAAAAg=</HashCode>
+      <FileName>UpaSyncConfigurationSection.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="ProfilePropertyNames" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Msec.Personify.UpaSyncService.UpaSyncJob">
+    <Position X="3" Y="0.5" Width="3.75" />
+    <Members>
+      <Field Name="_batchSize" Hidden="true" />
+      <Field Name="_isRunning" Hidden="true" />
+      <Field Name="_mainThread" Hidden="true" />
+      <Field Name="_mainThreadDoor" Hidden="true" />
+      <Field Name="_maximumRecords" Hidden="true" />
+      <Method Name="MainLoop" Hidden="true" />
+      <Method Name="OnExecuteFinished" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAQAAAQAAAAAAEECAIAAwAAAAAAAAAAAAAAAAAICAAA=</HashCode>
+      <FileName>UpaSyncJob.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Msec.Personify.UpaSyncService.UpaSyncJobScheduler">
+    <Position X="0.5" Y="0.5" Width="1.75" />
+    <Members>
+      <Field Name="_isRunning" Hidden="true" />
+      <Field Name="_nextRunTime" Hidden="true" />
+      <Field Name="_runningDoor" Hidden="true" />
+      <Field Name="_schedulingThread" Hidden="true" />
+      <Field Name="_sleepTimeout" Hidden="true" />
+      <Field Name="_timeOfDayToRun" Hidden="true" />
+      <Field Name="_upaSyncJob" Hidden="true" />
+      <Property Name="IsTimeToRun" Hidden="true" />
+      <Method Name="MainLoop" Hidden="true" />
+      <Method Name="UpaSyncJob_ExecuteFinished" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AABAAAAgQCAAAAAACIAAgAAAAgQAAAAQYAAAAAAAAAA=</HashCode>
+      <FileName>UpaSyncJobScheduler.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="Msec.Personify.UpaSyncService.FinishedState">
+    <Position X="0.5" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAQIAAAAAAAAAAAAAAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>FinishedState.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Tahoma" Size="8.25" />
+</ClassDiagram>
