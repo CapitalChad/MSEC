@@ -153,36 +153,36 @@ namespace Msec.Personify.Web {
 			user.SetAsCurrent();
 			this.LogInformation("PersonifySsoContext: A session security token was created for the current user based on the query string.  User is authenticated.");
 
-			try {
-				SPSite currentSite = SPContext.Current.Site;
-				SPWeb currentWeb = SPContext.Current.Web;
-				SPSecurity.RunWithElevatedPrivileges(delegate() {
-					using (SPSite elevatedSite = new SPSite(currentSite.ID)) {
-						elevatedSite.AllowUnsafeUpdates = true;
-						foreach (SPWeb elevatedWeb in elevatedSite.AllWebs) {
-							elevatedWeb.AllowUnsafeUpdates = true;
-							SPUser elevatedUser;
-							try {
-								elevatedUser = elevatedWeb.AllUsers[user.LoginName];
-								if (elevatedUser.Name == user.FriendlyName)
-									continue;
-								elevatedUser.Name = user.FriendlyName;
-								elevatedUser.Update();
-							}
-							catch (SPException) {
-								elevatedWeb.AllUsers.Add(user.LoginName, String.Empty, user.FriendlyName, String.Empty);
-							}
-							elevatedWeb.Update();
-						}
-					}
-				});
-			}
-			catch (Exception ex) {
-				if (!ex.CanBeHandledSafely())
-					throw;
+			//try {
+			//    SPSite currentSite = SPContext.Current.Site;
+			//    SPWeb currentWeb = SPContext.Current.Web;
+			//    SPSecurity.RunWithElevatedPrivileges(delegate() {
+			//        using (SPSite elevatedSite = new SPSite(currentSite.ID)) {
+			//            elevatedSite.AllowUnsafeUpdates = true;
+			//            foreach (SPWeb elevatedWeb in elevatedSite.AllWebs) {
+			//                elevatedWeb.AllowUnsafeUpdates = true;
+			//                SPUser elevatedUser;
+			//                try {
+			//                    elevatedUser = elevatedWeb.AllUsers[user.LoginName];
+			//                    if (elevatedUser.Name == user.FriendlyName)
+			//                        continue;
+			//                    elevatedUser.Name = user.FriendlyName;
+			//                    elevatedUser.Update();
+			//                }
+			//                catch (SPException) {
+			//                    elevatedWeb.AllUsers.Add(user.LoginName, String.Empty, user.FriendlyName, String.Empty);
+			//                }
+			//                elevatedWeb.Update();
+			//            }
+			//        }
+			//    });
+			//}
+			//catch (Exception ex) {
+			//    if (!ex.CanBeHandledSafely())
+			//        throw;
 
-				this.LogError("PersonifySsoContext: Error updating friendly name of user {0}: {1}", user.LoginName, ex);
-			}
+			//    this.LogError("PersonifySsoContext: Error updating friendly name of user {0}: {1}", user.LoginName, ex);
+			//}
 		}
 		/// <summary>
 		/// Performs specific actions at the end of the HTTP request.

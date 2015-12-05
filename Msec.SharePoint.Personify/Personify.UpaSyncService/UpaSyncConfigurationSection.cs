@@ -29,22 +29,6 @@ namespace Msec.Personify.UpaSyncService {
 			set { base["accountNamePrefix"] = value; }
 		}
 		/// <summary>
-		/// Gets or sets the size of each batch.
-		/// </summary>
-		[ConfigurationProperty("batchSize", DefaultValue = 10)]
-		public Int32 BatchSize {
-			get { return (Int32)base["batchSize"]; }
-			set { base["batchSize"] = value; }
-		}
-		/// <summary>
-		/// Gets or sets the maximum records to retrieve.
-		/// </summary>
-		[ConfigurationProperty("maximumRecords", DefaultValue = 1000000)]
-		public Int32 MaximumRecords {
-			get { return (Int32)base["maximumRecords"]; }
-			set { base["maximumRecords"] = value; }
-		}
-		/// <summary>
 		/// Gets or sets the name of the membership provider for users.
 		/// </summary>
 		[ConfigurationProperty("membershipProviderName", DefaultValue = "personifymembershipprovider")]

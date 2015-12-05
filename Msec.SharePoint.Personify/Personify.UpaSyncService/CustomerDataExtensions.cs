@@ -22,33 +22,31 @@ namespace Msec.Personify.UpaSyncService {
 		/// <param name="userProfile">The destination of the copy functionality.</param>
 		/// <exception cref="System.ArgumentNullException"><paramref name="instance"/> is a null reference.
 		/// -or- <paramref name="userProfile"/> is a null reference.</exception>
-		public static void CopyTo(this CustomerData instance, UserProfile userProfile) {
+		public static Boolean CopyTo(this CustomerData instance, UserProfile userProfile) {
 			if (instance == null)
 				throw new ArgumentNullException("instance");
 			if (userProfile == null)
 				throw new ArgumentNullException("userProfile");
 
 			UpaSyncConfiguration configuration = UpaSyncConfiguration.Instance;
-			CustomerDataExtensions.CopyTo(instance.EmailAddress, userProfile[configuration.WorkEmailPropertyName]);
-			CustomerDataExtensions.CopyTo(instance.FirstName, userProfile[configuration.FirstNamePropertyName]);
-			CustomerDataExtensions.CopyTo(instance.HomePhone, userProfile[configuration.HomePhonePropertyName]);
-			CustomerDataExtensions.CopyTo(instance.JobTitle, userProfile[configuration.JobTitlePropertyName]);
-			CustomerDataExtensions.CopyTo(instance.LastName, userProfile[configuration.LastNamePropertyName]);
-			CustomerDataExtensions.CopyTo(instance.PrimaryPhone, userProfile[configuration.WorkPhonePropertyName]);
-			CustomerDataExtensions.CopyTo(instance.Prefix, userProfile[configuration.PrefixPropertyName]);
-			CustomerDataExtensions.CopyTo(instance.Suffix, userProfile[configuration.SuffixPropertyName]);
-			CustomerDataExtensions.CopyTo(instance.MiddleName, userProfile[configuration.MiddleNamePropertyName]);
+			Boolean isChanged = CustomerDataExtensions.CopyTo(instance.EmailAddress, userProfile[configuration.WorkEmailPropertyName])
+				| CustomerDataExtensions.CopyTo(instance.FirstName, userProfile[configuration.FirstNamePropertyName])
+				| CustomerDataExtensions.CopyTo(instance.LastName, userProfile[configuration.LastNamePropertyName]);
+			return isChanged;
 		}
 		/// <summary>
 		/// Copies the value specified to the property specified.
 		/// </summary>
 		/// <param name="value">The value to copy.</param>
 		/// <param name="property">The property to which to copy the value.</param>
-		private static void CopyTo(Object value, UserProfileValueCollection property) {
+		private static Boolean CopyTo(String value, UserProfileValueCollection property) {
 			Debug.Assert(property != null);
-			if (property.Value != value) {
+			if (!String.Equals(property.Value as String, value, StringComparison.Ordinal)) {
 				property.Value = value;
+				return true;
 			}
+
+			return false;
 		}
 		/// <summary>
 		/// Returns the account name for the customer.

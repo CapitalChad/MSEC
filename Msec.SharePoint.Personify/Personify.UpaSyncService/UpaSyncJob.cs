@@ -19,11 +19,35 @@ namespace Msec.Personify.UpaSyncService {
 	/// Represents a job that synchronizes data between Personify and the User Profile Application in SharePoint.  This class may not be inherited.
 	/// </summary>
 	public sealed class UpaSyncJob : DisposableBase {
-	// Fields
-		/// <summary>
-		/// The record size of each batch.  This field is read-only.
-		/// </summary>
-		private readonly Int32 _batchSize;
+		#region private sealed class CustomerDataQueue : Object {...}
+		private sealed class CustomerDataQueue : Object {
+			// Fields
+			private Boolean _isFilling = true;
+			private readonly Queue<CustomerData> _queue = new Queue<CustomerData>();
+
+			// Constructors
+			public CustomerDataQueue() : base() { }
+
+			// Properties
+			public Boolean HasElements {
+				get { return this._queue.Count > 0; }
+			}
+			public Boolean IsFilling {
+				get { return this._isFilling; }
+				set { this._isFilling = value; }
+			}
+
+			// Methods
+			public CustomerData Dequeue() {
+				return this._queue.Dequeue();
+			}
+			public void Enqueue(CustomerData customerData) {
+				this._queue.Enqueue(customerData);
+			}
+		}
+		#endregion
+
+		// Fields
 		/// <summary>
 		/// <c>true</c> if this instance is running; otherwise, <c>false</c>.
 		/// </summary>
@@ -36,23 +60,14 @@ namespace Msec.Personify.UpaSyncService {
 		/// Controls access to the <see cref="F:_mainThread"/> field.  This field is read-only.
 		/// </summary>
 		private readonly Object _mainThreadDoor = new Object();
-		/// <summary>
-		/// The maximum number of records to retrieve.  This field is read-only.
-		/// </summary>
-		private readonly Int32 _maximumRecords;
 
-	// Constructors
+		// Constructors
 		/// <summary>
 		/// Initializes a new instance of the <see cref="T:UpaSyncJob"/> class.
 		/// </summary>
-		public UpaSyncJob()
-			: base() {
-			UpaSyncConfiguration configuration = UpaSyncConfiguration.Instance;
-			this._batchSize = configuration.BatchSize;
-			this._maximumRecords = configuration.MaximumRecords;
-		}
+		public UpaSyncJob() : base() { }
 
-	// Properties
+		// Properties
 		/// <summary>
 		/// Gets a value indicating if the job is running.
 		/// </summary>
@@ -60,13 +75,13 @@ namespace Msec.Personify.UpaSyncService {
 			get { return this._isRunning; }
 		}
 
-	// Events
+		// Events
 		/// <summary>
 		/// Occurs when the job finishes executing.
 		/// </summary>
 		public event EventHandler<ExecuteFinishedEventArgs> ExecuteFinished;
 
-	// Methods
+		// Methods
 		/// <summary>
 		/// Begins execution of the job asynchronously.
 		/// </summary>
@@ -93,7 +108,7 @@ namespace Msec.Personify.UpaSyncService {
 		/// <param name="userProfileManager">Used to save the user's data to SharePoint.</param>
 		/// <param name="users">The sequence of users to copy.</param>
 		/// <exception cref="Msec.Personify.UpaSyncService.ServiceStoppedException">This instance is not running.</exception>
-		private void CopyUsersToUserProfileServiceApplication(PersonifyUniversalService universalService, UserProfileManager userProfileManager, IEnumerable<CustomerData> users) {
+		private void CopyUsersToUserProfileServiceApplication(PersonifyUniversalService universalService, UserProfileManager userProfileManager, CustomerDataQueue queue) {
 			Int32 totalCount = 0;
 			Int32 createdProfileCount = 0;
 			Int32 updatedProfileCount = 0;
@@ -101,16 +116,24 @@ namespace Msec.Personify.UpaSyncService {
 			Int32 orphanedUserCount = 0;
 			Int32 duplicateUserCount = 0;
 
-			foreach (var user in users) {
+			while (queue.IsFilling || queue.HasElements) {
+				if (!queue.HasElements) {
+					Thread.Sleep(10);
+					continue;
+				}
+
+				CustomerData user = queue.Dequeue();
 				// Save the user's information to SharePoint's User Profile Service Application.
 				try {
 					String accountName = user.GetAccountName();
 					String preferredName = user.GetPreferredName();
 					UserProfile userProfile;
 					Boolean isUpdate = userProfileManager.UserExists(accountName);
+					Boolean isChanged = false;
 					if (isUpdate) {
 						userProfile = userProfileManager.GetUserProfile(accountName);
-						if ((userProfile[PropertyConstants.PreferredName].Value as String) != preferredName) {
+						if (!String.Equals(userProfile[PropertyConstants.PreferredName].Value as String, preferredName, StringComparison.Ordinal)) {
+							isChanged = true;
 							userProfile[PropertyConstants.PreferredName].Value = preferredName;
 						}
 					}
@@ -118,16 +141,20 @@ namespace Msec.Personify.UpaSyncService {
 						userProfile = userProfileManager.CreateUserProfile(accountName, preferredName);
 					}
 
-					user.CopyTo(userProfile);
-					userProfile.Commit();
-
-					if (isUpdate) {
-						updatedProfileCount++;
-						this.LogVerbose("UpaSyncJob: User profile with account name {0} updated.", accountName);
+					isChanged = user.CopyTo(userProfile) | isChanged;
+					if (!isChanged && isUpdate) {
+						this.LogVerbose("UpaSyncJob: User profile with account name {0} is up-to-date.", accountName);
 					}
 					else {
-						createdProfileCount++;
-						this.LogVerbose("UpaSyncJob: User profile with account name {0} created.", accountName);
+						userProfile.Commit();
+						if (isUpdate) {
+							updatedProfileCount++;
+							this.LogVerbose("UpaSyncJob: User profile with account name {0} updated.", accountName);
+						}
+						else {
+							createdProfileCount++;
+							this.LogVerbose("UpaSyncJob: User profile with account name {0} created.", accountName);
+						}
 					}
 				}
 				catch (Exception ex) {
@@ -191,32 +218,46 @@ namespace Msec.Personify.UpaSyncService {
 		/// <param name="universalService">Used to find the committees and members.</param>
 		/// <returns>The enumerable collection of user names for members in "active" committees.</returns>
 		/// <exception cref="Msec.Personify.UpaSyncService.ServiceStoppedException">This instance receives a stop instruction during its operation.</exception>
-		private IEnumerable<CustomerData> GetUsers(PersonifyUniversalService universalService) {
-			for (Int32 i = 0; i < 9999999; i++) {
+		private void FillUsers(PersonifyUniversalService universalService, CustomerDataQueue queue) {
+			Int32 emptyCount = 0;
+			for (Int32 i = 0; i < 10000000; i++) {
 				String userNameStart = i.ToString("0000000");
 				this.LogInformation("UpaSyncJob: Starting query of user names matching {0}###...", userNameStart);
 				IEnumerable<CustomerData> customers = universalService.GetCustomersWhereUserNameStartsWith(userNameStart);
+				Boolean isEmpty = true;
 				foreach (var customer in customers) {
+					isEmpty = false;
 					this.LogVerbose("UpaSyncJob: Retrieved user {0} {1} ({2}).", customer.FirstName, customer.LastName, customer.UserName);
-					yield return customer;
+					queue.Enqueue(customer);
 				}
+				if (isEmpty)
+					emptyCount++;
+				else
+					emptyCount = 0;
+				if (emptyCount >= 100)
+					break;
 			}
+			queue.IsFilling = false;
 		}
 		/// <summary>
 		/// Acts as the main loop for the job.
 		/// </summary>
 		private void MainLoop() {
 			this.LogInformation("Starting synchronization job at {0}.", DateTime.Now);
+
+			Thread getUsersThread = null;
 			try {
 				using (PersonifyUniversalService universalService = PersonifyUniversalService.NewPersonifyUniversalService()) {
 					this.EnsureIsRunning();
 					UserProfileManager userProfileManager = UpaSyncJob.CreateSharePointUserProfileManager();
 
 					this.EnsureIsRunning();
-					IEnumerable<CustomerData> users = this.GetUsers(universalService);
+					CustomerDataQueue queue = new CustomerDataQueue();
+					getUsersThread = new Thread(() => this.FillUsers(universalService, queue));
+					getUsersThread.Start();
 
 					this.EnsureIsRunning();
-					this.CopyUsersToUserProfileServiceApplication(universalService, userProfileManager, users);
+					this.CopyUsersToUserProfileServiceApplication(universalService, userProfileManager, queue);
 				}
 			}
 			catch (ServiceStoppedException) {
@@ -230,6 +271,15 @@ namespace Msec.Personify.UpaSyncService {
 				this._isRunning = false;
 				this.LogError("UpaSyncJob: Synchronization job stopped to due error at {0}: {1}", DateTime.Now, ex);
 				this.OnExecuteFinished(new ExecuteFinishedEventArgs(FinishedState.Error, ex));
+			}
+			finally {
+				if (getUsersThread != null) {
+					try {
+						if (!getUsersThread.Join(1000))
+							getUsersThread.Abort();
+					}
+					catch { }
+				}
 			}
 		}
 		/// <summary>

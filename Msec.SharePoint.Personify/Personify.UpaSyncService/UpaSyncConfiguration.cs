@@ -77,12 +77,6 @@ namespace Msec.Personify.UpaSyncService {
 			get { return this._upaSyncConfigurationSection.Object.ProfilePropertyNames.AddressLine3; }
 		}
 		/// <summary>
-		/// Gets the size of each batch.
-		/// </summary>
-		public Int32 BatchSize {
-			get { return this._upaSyncConfigurationSection.Object.BatchSize; }
-		}
-		/// <summary>
 		/// Gets the name of the "city" user profile property.
 		/// </summary>
 		public String CityPropertyName {
@@ -123,12 +117,6 @@ namespace Msec.Personify.UpaSyncService {
 		/// </summary>
 		public String LastNamePropertyName {
 			get { return this._upaSyncConfigurationSection.Object.ProfilePropertyNames.LastName; }
-		}
-		/// <summary>
-		/// Gets the maximum records to retrieve.
-		/// </summary>
-		public Int32 MaximumRecords {
-			get { return this._upaSyncConfigurationSection.Object.MaximumRecords; }
 		}
 		/// <summary>
 		/// Gets the name of the membership provider for users.
