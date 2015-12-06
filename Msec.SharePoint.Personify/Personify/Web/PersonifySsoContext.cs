@@ -84,12 +84,24 @@ namespace Msec.Personify.Web {
 			get {
 				String requestUrl = this._httpContext.Request.Url.AbsolutePath;
 				String matchingIgnoredUrl = PersonifyConfiguration.Instance.IgnoredUrls
-					.Where(ignoredUrl => {
-						String absoluteUrl = VirtualPathUtility.ToAbsolute(ignoredUrl);
-						Boolean matches = requestUrl.StartsWith(absoluteUrl, StringComparison.OrdinalIgnoreCase);
-						this.LogVerbose("URL {0} {1} ignored URL {2} as absolute URL {3}.", requestUrl, matches ? "matches" : "does not match", ignoredUrl, absoluteUrl);
+					.Where(ignoredUrlPair => {
+						String absoluteUrl = VirtualPathUtility.ToAbsolute(ignoredUrlPair.Key);
+						Boolean matches;
+						Boolean isExactMatch = ignoredUrlPair.Value;
+						if (!isExactMatch) {
+							matches = requestUrl.StartsWith(absoluteUrl, StringComparison.OrdinalIgnoreCase);
+						}
+						else {
+							String currentRequestUrl = requestUrl;
+							if (currentRequestUrl.Contains('?'))
+								currentRequestUrl = currentRequestUrl.Substring(0, currentRequestUrl.IndexOf('?') - 1);
+							matches = currentRequestUrl.Equals(absoluteUrl, StringComparison.OrdinalIgnoreCase);
+						}
+
+						this.LogVerbose("URL {0} {1} ignored URL {2} as absolute URL {3}.", requestUrl, matches ? "matches" : "does not match", ignoredUrlPair, absoluteUrl);
 						return matches;
 					})
+					.Select(ignoredUrlPair => ignoredUrlPair.Key)
 					.FirstOrDefault();
 
 				if (matchingIgnoredUrl != null) {

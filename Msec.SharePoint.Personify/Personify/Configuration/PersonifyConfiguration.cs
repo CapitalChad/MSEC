@@ -38,7 +38,7 @@ namespace Msec.Personify.Configuration {
 		#endregion
 
 	// Fields
-		private IEnumerable<String> _ignoredUrls;
+		private IDictionary<String, Boolean> _ignoredUrls;
 #if DEBUG
 		private LazyLoader<PersonifyIMConfigurationSection> _personifyIMConfigurationSection = new LazyLoader<PersonifyIMConfigurationSection>(PersonifyIMConfigurationSection.GetSection);
 		/// <summary>
@@ -70,17 +70,16 @@ namespace Msec.Personify.Configuration {
 		private PersonifyConfiguration() : base() { }
 
 	// Properties
-		public IEnumerable<String> IgnoredUrls {
+		public IDictionary<String, Boolean> IgnoredUrls {
 			get {
 				if (this._ignoredUrls == null) {
 					PersonifySsoConfigurationSection ssoConfiguration = this._personifySsoConfigurationSection.Object;
 					if (ssoConfiguration.IgnoredUrls != null)
 						this._ignoredUrls = this._personifySsoConfigurationSection.Object.IgnoredUrls
 							.Cast<IgnoredUrlElement>()
-							.Select(element => element.Path)
-							.ToArray();
+							.ToDictionary(element => element.Path, element => element.IsExactMatch);
 					else
-						this._ignoredUrls = new String[0];
+						this._ignoredUrls = new Dictionary<String, Boolean>();
 				}
 				return this._ignoredUrls;
 			}
