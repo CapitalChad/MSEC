@@ -20,12 +20,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfigEditor", "ConfigEditor\ConfigEditor.csproj", "{EA93D36D-AF3E-4133-BA6D-63F8715A5DBC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Personify.UpaSyncService", "Personify.UpaSyncService\Personify.UpaSyncService.csproj", "{ECDBC732-69F7-4019-AC27-EDEE9E617B87}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Personify.UpaSyncService.TestHarness", "Personify.UpaSyncService.TestHarness\Personify.UpaSyncService.TestHarness.csproj", "{6A370736-1551-4FD6-88BE-CB9BA40FB80B}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Personify.UpaSyncService.ServiceProcess", "Personify.UpaSyncService.ServiceProcess\Personify.UpaSyncService.ServiceProcess.csproj", "{E671964C-83AC-4B39-9205-EF045BA92040}"
-EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = Msec.SharePoint.Personify.vsmdi
@@ -115,45 +109,6 @@ Global
 		{EA93D36D-AF3E-4133-BA6D-63F8715A5DBC}.Release|x64.ActiveCfg = Release|x86
 		{EA93D36D-AF3E-4133-BA6D-63F8715A5DBC}.Release|x86.ActiveCfg = Release|x86
 		{EA93D36D-AF3E-4133-BA6D-63F8715A5DBC}.Release|x86.Build.0 = Release|x86
-		{ECDBC732-69F7-4019-AC27-EDEE9E617B87}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{ECDBC732-69F7-4019-AC27-EDEE9E617B87}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{ECDBC732-69F7-4019-AC27-EDEE9E617B87}.Debug|Mixed Platforms.ActiveCfg = Debug|x64
-		{ECDBC732-69F7-4019-AC27-EDEE9E617B87}.Debug|Mixed Platforms.Build.0 = Debug|x64
-		{ECDBC732-69F7-4019-AC27-EDEE9E617B87}.Debug|x64.ActiveCfg = Debug|x64
-		{ECDBC732-69F7-4019-AC27-EDEE9E617B87}.Debug|x64.Build.0 = Debug|x64
-		{ECDBC732-69F7-4019-AC27-EDEE9E617B87}.Debug|x86.ActiveCfg = Debug|x64
-		{ECDBC732-69F7-4019-AC27-EDEE9E617B87}.Debug|x86.Build.0 = Debug|x64
-		{ECDBC732-69F7-4019-AC27-EDEE9E617B87}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{ECDBC732-69F7-4019-AC27-EDEE9E617B87}.Release|Any CPU.Build.0 = Release|Any CPU
-		{ECDBC732-69F7-4019-AC27-EDEE9E617B87}.Release|Mixed Platforms.ActiveCfg = Release|x64
-		{ECDBC732-69F7-4019-AC27-EDEE9E617B87}.Release|Mixed Platforms.Build.0 = Release|x64
-		{ECDBC732-69F7-4019-AC27-EDEE9E617B87}.Release|x64.ActiveCfg = Release|x64
-		{ECDBC732-69F7-4019-AC27-EDEE9E617B87}.Release|x64.Build.0 = Release|x64
-		{ECDBC732-69F7-4019-AC27-EDEE9E617B87}.Release|x86.ActiveCfg = Release|x64
-		{6A370736-1551-4FD6-88BE-CB9BA40FB80B}.Debug|Any CPU.ActiveCfg = Debug|x64
-		{6A370736-1551-4FD6-88BE-CB9BA40FB80B}.Debug|Mixed Platforms.ActiveCfg = Debug|x64
-		{6A370736-1551-4FD6-88BE-CB9BA40FB80B}.Debug|Mixed Platforms.Build.0 = Debug|x64
-		{6A370736-1551-4FD6-88BE-CB9BA40FB80B}.Debug|x64.ActiveCfg = Debug|x64
-		{6A370736-1551-4FD6-88BE-CB9BA40FB80B}.Debug|x64.Build.0 = Debug|x64
-		{6A370736-1551-4FD6-88BE-CB9BA40FB80B}.Debug|x86.ActiveCfg = Debug|x64
-		{6A370736-1551-4FD6-88BE-CB9BA40FB80B}.Release|Any CPU.ActiveCfg = Release|x64
-		{6A370736-1551-4FD6-88BE-CB9BA40FB80B}.Release|Mixed Platforms.ActiveCfg = Release|x64
-		{6A370736-1551-4FD6-88BE-CB9BA40FB80B}.Release|Mixed Platforms.Build.0 = Release|x64
-		{6A370736-1551-4FD6-88BE-CB9BA40FB80B}.Release|x64.ActiveCfg = Release|x64
-		{6A370736-1551-4FD6-88BE-CB9BA40FB80B}.Release|x64.Build.0 = Release|x64
-		{6A370736-1551-4FD6-88BE-CB9BA40FB80B}.Release|x86.ActiveCfg = Release|x64
-		{E671964C-83AC-4B39-9205-EF045BA92040}.Debug|Any CPU.ActiveCfg = Debug|x64
-		{E671964C-83AC-4B39-9205-EF045BA92040}.Debug|Mixed Platforms.ActiveCfg = Debug|x64
-		{E671964C-83AC-4B39-9205-EF045BA92040}.Debug|Mixed Platforms.Build.0 = Debug|x64
-		{E671964C-83AC-4B39-9205-EF045BA92040}.Debug|x64.ActiveCfg = Debug|x64
-		{E671964C-83AC-4B39-9205-EF045BA92040}.Debug|x64.Build.0 = Debug|x64
-		{E671964C-83AC-4B39-9205-EF045BA92040}.Debug|x86.ActiveCfg = Debug|x64
-		{E671964C-83AC-4B39-9205-EF045BA92040}.Release|Any CPU.ActiveCfg = Release|x64
-		{E671964C-83AC-4B39-9205-EF045BA92040}.Release|Mixed Platforms.ActiveCfg = Release|x64
-		{E671964C-83AC-4B39-9205-EF045BA92040}.Release|Mixed Platforms.Build.0 = Release|x64
-		{E671964C-83AC-4B39-9205-EF045BA92040}.Release|x64.ActiveCfg = Release|x64
-		{E671964C-83AC-4B39-9205-EF045BA92040}.Release|x64.Build.0 = Release|x64
-		{E671964C-83AC-4B39-9205-EF045BA92040}.Release|x86.ActiveCfg = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

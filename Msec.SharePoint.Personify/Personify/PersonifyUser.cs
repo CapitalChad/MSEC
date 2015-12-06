@@ -37,7 +37,7 @@ namespace Msec.Personify {
 		/// <summary>
 		/// The user name for the user.
 		/// </summary>
-		private String _userName;
+		private String _masterCustomerId;
 
 	// Constructors
 		/// <summary>
@@ -56,7 +56,7 @@ namespace Msec.Personify {
 			if (userName.Length == 0)
 				throw new ArgumentException("The value specified does not have any non-white-space characters.", "userName");
 
-			this._userName = userName;
+			this._masterCustomerId = userName;
 		}
 		/// <summary>
 		/// Initializes a new instance of the <see cref="T:PersonifyUser"/> class.
@@ -95,18 +95,7 @@ namespace Msec.Personify {
 		/// </summary>
 		public String DisplayName {
 			get {
-				String userName = this.UserName;
-				this.EnsureCustomerData();
-				if (this._lastName != null) {
-					if (this._firstName != null) {
-						return this._firstName + " " + this._lastName + " (" + userName + ")";
-					}
-					return this._lastName + " (" + userName + ")";
-				}
-				if (this._firstName != null) {
-					return this._firstName + " (" + userName + ")";
-				}
-				return userName;
+				return this.UserName;
 			}
 		}
 		/// <summary>
@@ -151,7 +140,17 @@ namespace Msec.Personify {
 		public String UserName {
 			get {
 				this.EnsureExistsIsKnown();
-				return this._userName;
+				this.EnsureCustomerData();
+				if (this._lastName != null) {
+					if (this._firstName != null) {
+						return this._firstName + " " + this._lastName + " (" + this._masterCustomerId + ")";
+					}
+					return this._lastName + " (" + this._masterCustomerId + ")";
+				}
+				if (this._firstName != null) {
+					return this._firstName + " (" + this._masterCustomerId + ")";
+				}
+				return this._masterCustomerId;
 			}
 		}
 
@@ -161,19 +160,19 @@ namespace Msec.Personify {
 		/// </summary>
 		private void EnsureCustomerData() {
 			if (!this._isCustomerDataLoaded) {
-				if (this._userName == null) {
+				if (this._masterCustomerId == null) {
 					this.LogVerbose("PersonifyUser: Retrieving user name for customer token {0}...", this._customerToken);
 					using (PersonifySsoService ssoService = PersonifySsoService.NewPersonifySsoService()) {
-						this._userName = ssoService.GetCustomerName(this._customerToken);
-						this.LogVerbose("PersonifyUser: User name {0} retrieved for customer token {1}.", this._userName, this._customerToken);
+						this._masterCustomerId = ssoService.GetCustomerName(this._customerToken);
+						this.LogVerbose("PersonifyUser: User name {0} retrieved for customer token {1}.", this._masterCustomerId, this._customerToken);
 					}
 				}
 
-				this.LogVerbose("PersonifyUser: Retrieving customer information for user {0}...", this._userName);
+				this.LogVerbose("PersonifyUser: Retrieving customer information for user {0}...", this._masterCustomerId);
 				CustomerData customer;
 				using (PersonifyUniversalService service = PersonifyUniversalService.NewPersonifyUniversalService()) {
-					customer = service.GetCustomerByUserName(this._userName);
-					this.LogVerbose("PersonifyUser: Customer information was {0}found for user {1}.", customer != null ? String.Empty : "not ", this._userName);
+					customer = service.GetCustomerByUserName(this._masterCustomerId);
+					this.LogVerbose("PersonifyUser: Customer information was {0}found for user {1}.", customer != null ? String.Empty : "not ", this._masterCustomerId);
 					//Constraint constraint = new Constraint(CustomerData.UserNameKey, ConstraintOperator.Equals, this._userName);
 					//customer = service.GetCustomers(constraint).FirstOrDefault();
 				}
@@ -195,7 +194,7 @@ namespace Msec.Personify {
 		/// <param name="customer">Provides the customer data.</param>
 		private void LoadCustomerData(CustomerData customer) {
 			if (customer != null) {
-				this._userName = customer.UserName;
+				this._masterCustomerId = customer.UserName;
 				this._emailAddress = customer.EmailAddress;
 				this._firstName = customer.FirstName;
 				this._lastName = customer.LastName;
