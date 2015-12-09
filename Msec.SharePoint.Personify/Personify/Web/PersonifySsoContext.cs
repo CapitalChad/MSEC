@@ -82,6 +82,7 @@ namespace Msec.Personify.Web {
 		}
 		private Boolean IsAuthenticationRequired {
 			get {
+				this.LogVerbose("PersonifySsoContext: Checking URL {0} to see if it is ignored...", this._httpContext.Request.Url);
 				String requestUrl = this._httpContext.Request.Url.AbsolutePath;
 				String matchingIgnoredUrl = PersonifyConfiguration.Instance.IgnoredUrls
 					.Where(ignoredUrlPair => {
@@ -161,9 +162,10 @@ namespace Msec.Personify.Web {
 				return;
 			}
 
-			PersonifyUser user = new PersonifyUser(customerToken);
+			PersonifyUser user = PersonifyUser.FromDecryptedCustomerToken(customerToken.Decrypt());
 			user.SetAsCurrent();
 			this.LogInformation("PersonifySsoContext: A session security token was created for the current user based on the query string.  User is authenticated.");
+			this._httpContext.Items["PersonifySsoContext.WasTokenSet"] = true;
 
 			try {
 				SPSite currentSite = SPContext.Current.Site;
@@ -200,9 +202,20 @@ namespace Msec.Personify.Web {
 		/// Performs specific actions at the end of the HTTP request.
 		/// </summary>
 		public void EndRequest() {
-			if (this.IsAuthenticationRequired && this.AuthenticateRequestCalled && this.IsUnauthorizedRequest) {
+			if (this.AuthenticateRequestCalled && this.IsUnauthorizedRequest && this.IsAuthenticationRequired) {
 				this.LogInformation("PersonifySsoContext: User is authenticated, but the request returned a 401 HTTP status code.  Redirecting to SSO login page.");
 				this.RedirectToLoginPage();
+			}
+
+#warning // HACK: This resolves a 404 issue after the SSO page redirects back here.  It's not elegant, but it works.
+			if (this._httpContext.Response.StatusCode == (Int32)HttpStatusCode.NotFound) {
+				Object wasTokenSetValue = this._httpContext.Items["PersonifySsoContext.WasTokenSet"];
+				if (wasTokenSetValue != null && wasTokenSetValue is Boolean && (Boolean)wasTokenSetValue) {
+					this.LogInformation("PersonifySsoContext: The response returned 404, but the user was just now authenticated.  Redirecting to the current URL to force a refresh.");
+					Uri currentUrl = new Uri(this._httpContext.Request.Url.OriginalString);
+					currentUrl.RemoveQuery("ct");
+					this._httpContext.Response.Redirect(currentUrl.ToString(), false);
+				}
 			}
 		}
 		/// <summary>
@@ -227,13 +240,14 @@ namespace Msec.Personify.Web {
 			PersonifyConfiguration configuration = PersonifyConfiguration.Instance;
 			String vendorToken = null;
 			using (PersonifySsoService ssoService = PersonifySsoService.NewPersonifySsoService()) {
+				this.LogVerbose("PersonifySsoContext: Encrypting return URL of {0}...", requestedUrl);
 				vendorToken = ssoService.EncryptVendorToken(requestedUrl);
 			}
 			Uri loginPageUrl = configuration.LoginPageUrl
 				.RemoveQuery("ct")
 				.AppendQuery("vi", configuration.VendorIdentifier)
 				.AppendQuery("vt", vendorToken);
-			this.LogInformation("Redirecting to {0}.", loginPageUrl);
+			this.LogInformation("PersonifySsoContext: Redirecting to {0}.", loginPageUrl);
 			this._httpContext.Response.Redirect(loginPageUrl.ToString(), false);
 			this.LogVerbose("PersonifySsoContext: Redirected to URL {0}.", loginPageUrl);
 		}

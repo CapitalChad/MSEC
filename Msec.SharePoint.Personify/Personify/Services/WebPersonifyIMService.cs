@@ -64,14 +64,13 @@ namespace Msec.Personify.Services {
 		/// <summary>
 		/// Returns the roles for a customer token.
 		/// </summary>
-		/// <param name="customerToken">Identifies the customer.</param>
+		/// <param name="decryptedCustomerToken">Identifies the customer.</param>
 		/// <returns>The roles for the customer.</returns>
-		protected override String[] GetCustomerRolesCore(CustomerToken customerToken) {
+		protected override String[] GetCustomerRolesCore(String decryptedCustomerToken) {
 			Debug.Assert(this._service != null);
-			if (customerToken == null)
-				throw new ArgumentNullException("customerToken");
+			if (decryptedCustomerToken == null)
+				throw new ArgumentNullException("decryptedCustomerToken");
 
-			String decryptedCustomerToken = customerToken.Decrypt();
 			IMSCustomerRoleGetResult result = WebPersonifyIMService.ExecuteServiceCall(
 				() => this._service.IMSCustomerRoleGet(this.Credentials.UserName, this.Credentials.Password, decryptedCustomerToken),
 				callResult => callResult.Errors);

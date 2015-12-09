@@ -367,14 +367,13 @@ namespace Msec.Personify.Web {
 			this.LogVerbose("PersonifyMembershipProvider: Validating user {0}...", username);
 
 			if (!String.IsNullOrEmpty(username) && !String.IsNullOrEmpty(password)) {
-				String encryptedCustomerToken = password;
-				CustomerToken customerToken = CustomerToken.Create(encryptedCustomerToken);
-				if (customerToken != null) {
-					PersonifyUser user = new PersonifyUser(customerToken);
-					this.LogInformation("PersonifyMembershipProvider: User name {0} with customer token {1} has been validated.", username, encryptedCustomerToken);
+				String decryptedCustomerToken = password;
+				if (decryptedCustomerToken != null) {
+					PersonifyUser user = PersonifyUser.FromDecryptedCustomerToken(decryptedCustomerToken);
+					this.LogInformation("PersonifyMembershipProvider: User name {0} with customer token {1} has been validated.", username, decryptedCustomerToken);
 					Boolean isValid = username == user.UserName;
 					if (isValid)
-						RoleCache.Instance.RefreshRoles(username, customerToken);
+						RoleCache.Instance.RefreshRoles(username, decryptedCustomerToken);
 					return isValid;
 				}
 				this.LogInformation("PersonifyMembershipProvider: User name {0} with customer token {1} is not valid.", username, password);

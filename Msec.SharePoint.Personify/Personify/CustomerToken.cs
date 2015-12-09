@@ -16,6 +16,7 @@ namespace Msec.Personify {
 	[ImmutableObject(true)]
 	public sealed class CustomerToken : Object, IEquatable<CustomerToken>, IEquatable<String> {
 	// Fields
+		private String _decryptedValue;
 		/// <summary>
 		/// The encrypted value of the token.  This field is read-only.
 		/// </summary>
@@ -26,10 +27,11 @@ namespace Msec.Personify {
 		/// Initializes a new instance of the <see cref="T:CustomerToken"/> class.
 		/// </summary>
 		/// <param name="encryptedValue">The encrypted value of the token.</param>
-		private CustomerToken(String encryptedValue)
+		private CustomerToken(String encryptedValue, String decryptedValue)
 			: base() {
 			Debug.Assert(encryptedValue != null);
 			this._encryptedValue = encryptedValue;
+			this._decryptedValue = decryptedValue;
 		}
 
 	// Methods
@@ -59,10 +61,10 @@ namespace Msec.Personify {
 				return null;
 			}
 
-			Boolean isCustomerTokenValid;
+			String decryptedValue;
 			try {
 				using (PersonifySsoService service = PersonifySsoService.NewPersonifySsoService()) {
-					isCustomerTokenValid = service.IsCustomerTokenValid(encryptedValue);
+					decryptedValue = service.DecryptCustomerToken(encryptedValue);
 				}
 			}
 			catch (Exception ex) {
@@ -70,22 +72,22 @@ namespace Msec.Personify {
 					throw;
 				}
 				typeof(CustomerToken).LogError("A customer token could not be checked for validity.  Returning false: {0}.", ex);
-				isCustomerTokenValid = false;
+				decryptedValue = null;
 			}
-			if (!isCustomerTokenValid) {
+			if (decryptedValue == null) {
 				if (throwOnError) {
 					throw new ArgumentException("The value specified is not an encrypted customer token.", "encryptedValue");
 				}
 				return null;
 			}
-			return new CustomerToken(encryptedValue);
+			return new CustomerToken(encryptedValue, decryptedValue);
 		}
 		/// <summary>
 		/// Decrypts the token and returns the resulting value.
 		/// </summary>
 		/// <returns>The decrypted token.</returns>
 		public String Decrypt() {
-			return CustomerToken.Decrypt(this._encryptedValue);
+			return this._decryptedValue;
 		}
 		/// <summary>
 		/// Decrypts an encrypted customer token value and returns the resulting value.

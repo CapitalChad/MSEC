@@ -13,7 +13,7 @@ namespace Msec.Personify {
 		/// <summary>
 		/// The customer token for the user.  This field is read-only.
 		/// </summary>
-		private readonly CustomerToken _customerToken;
+		private readonly String _decryptedCustomerToken;
 		/// <summary>
 		/// The user's primary e-mail address.
 		/// </summary>
@@ -58,17 +58,10 @@ namespace Msec.Personify {
 
 			this._masterCustomerId = userName;
 		}
-		/// <summary>
-		/// Initializes a new instance of the <see cref="T:PersonifyUser"/> class.
-		/// </summary>
-		/// <param name="customerToken">The customer token from which to create this instance.</param>
-		/// <exception cref="System.ArgumentNullException"><paramref name="customerToken"/> is a null reference.</exception>
-		public PersonifyUser(CustomerToken customerToken)
+		private PersonifyUser(String userName, String decryptedCustomerToken)
 			: base() {
-			if (customerToken == null)
-				throw new ArgumentNullException("customerToken");
-
-			this._customerToken = customerToken;
+			this._masterCustomerId = userName;
+			this._decryptedCustomerToken = decryptedCustomerToken;
 		}
 		/// <summary>
 		/// Initializes a new instance of the <see cref="T:PersonifyUser"/> class.
@@ -85,10 +78,10 @@ namespace Msec.Personify {
 
 	// Properties
 		/// <summary>
-		/// Gets the customer token for the user, or a null reference.
+		/// Gets the decrypted customer token for the user.
 		/// </summary>
-		public CustomerToken CustomerToken {
-			get { return this._customerToken; }
+		public String CustomerToken {
+			get { return this._decryptedCustomerToken; }
 		}
 		/// <summary>
 		/// Gets the display name for the user.
@@ -161,10 +154,10 @@ namespace Msec.Personify {
 		private void EnsureCustomerData() {
 			if (!this._isCustomerDataLoaded) {
 				if (this._masterCustomerId == null) {
-					this.LogVerbose("PersonifyUser: Retrieving user name for customer token {0}...", this._customerToken);
+					this.LogVerbose("PersonifyUser: Retrieving user name for customer token {0}...", this._decryptedCustomerToken);
 					using (PersonifySsoService ssoService = PersonifySsoService.NewPersonifySsoService()) {
-						this._masterCustomerId = ssoService.GetCustomerName(this._customerToken);
-						this.LogVerbose("PersonifyUser: User name {0} retrieved for customer token {1}.", this._masterCustomerId, this._customerToken);
+						this._masterCustomerId = ssoService.GetCustomerName(this._decryptedCustomerToken);
+						this.LogVerbose("PersonifyUser: User name {0} retrieved for customer token {1}.", this._masterCustomerId, this._decryptedCustomerToken);
 					}
 				}
 
@@ -187,6 +180,13 @@ namespace Msec.Personify {
 			if (!this._exists.HasValue) {
 				this._exists = false;
 			}
+		}
+		public static PersonifyUser FromDecryptedCustomerToken(String decryptedCustomerToken) {
+			String masterCustomerId;
+			using (PersonifySsoService ssoService = PersonifySsoService.NewPersonifySsoService()) {
+				masterCustomerId = ssoService.GetCustomerName(decryptedCustomerToken);
+			}
+			return new PersonifyUser(masterCustomerId, decryptedCustomerToken);
 		}
 		/// <summary>
 		/// Loads the customer data from the object specified.

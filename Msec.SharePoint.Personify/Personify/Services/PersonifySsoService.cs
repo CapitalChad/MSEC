@@ -166,45 +166,25 @@ namespace Msec.Personify.Services {
 		/// <summary>
 		/// Returns the customer name/identifier from the customer token specified.
 		/// </summary>
-		/// <param name="customerToken">The customer token to translate to a customer name/identifier.</param>
+		/// <param name="decryptedCustomerToken">The customer token to translate to a customer name/identifier.</param>
 		/// <returns>The customer's user name.</returns>
 		/// <exception cref="System.ArgumentNullException"><paramref name="customerToken"/> is a null reference.</exception>
 		/// <exception cref="Msec.ServiceException">An error occurs while communicating with the service.</exception>
 		/// <exception cref="System.ObjectDisposedException">This instance has been disposed.</exception>
-		public String GetCustomerName(CustomerToken customerToken) {
+		public String GetCustomerName(String decryptedCustomerToken) {
 			this.ThrowIfDisposed();
-			if (customerToken == null) {
-				throw new ArgumentNullException("customerToken");
+			if (decryptedCustomerToken == null) {
+				throw new ArgumentNullException("decryptedCustomerToken");
 			}
 
-			return PersonifySsoService.Execute(() => this.GetCustomerNameCore(customerToken));
+			return PersonifySsoService.Execute(() => this.GetCustomerNameCore(decryptedCustomerToken));
 		}
 		/// <summary>
 		/// Returns the customer name/identifier from the customer token specified.
 		/// </summary>
-		/// <param name="customerToken">The customer token to translate to a customer name/identifier.</param>
+		/// <param name="decryptedCustomerToken">The customer token to translate to a customer name/identifier.</param>
 		/// <returns>The customer's user name.</returns>
-		protected abstract String GetCustomerNameCore(CustomerToken customerToken);
-		/// <summary>
-		/// Returns a value indicating if the customer token specified is valid.
-		/// </summary>
-		/// <param name="encryptedCustomerToken">The customer token to validate.</param>
-		/// <returns><c>true</c> if the customer token is valid; otherwise, <c>false</c>.</returns>
-		/// <exception cref="Msec.ServiceException">An error occurs while communicating with the service.</exception>
-		/// <exception cref="System.ObjectDisposedException">This instance has been disposed.</exception>
-		public Boolean IsCustomerTokenValid(String encryptedCustomerToken) {
-			this.ThrowIfDisposed();
-			if (encryptedCustomerToken == null) {
-				return false;
-			}
-			return PersonifySsoService.Execute(() => this.IsCustomerTokenValidCore(encryptedCustomerToken));
-		}
-		/// <summary>
-		/// Returns a value indicating if the customer token specified is valid.
-		/// </summary>
-		/// <param name="encryptedCustomerToken">The customer token to validate.</param>
-		/// <returns><c>true</c> if the customer token is valid; otherwise, <c>false</c>.</returns>
-		protected abstract Boolean IsCustomerTokenValidCore(String encryptedCustomerToken);
+		protected abstract String GetCustomerNameCore(String decryptedCustomerToken);
 		/// <summary>
 		/// Logs out a customer.
 		/// </summary>

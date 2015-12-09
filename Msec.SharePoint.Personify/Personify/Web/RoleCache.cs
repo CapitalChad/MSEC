@@ -101,12 +101,12 @@ namespace Msec.Personify.Web {
 		/// Refreshes the roles for a user.
 		/// </summary>
 		/// <param name="userName">Identifies the user.</param>
-		/// <param name="customerToken">Identifies the user.</param>
-		public void RefreshRoles(String userName, CustomerToken customerToken) {
-			this.LogVerbose("RoleCache: Refreshing roles for user {0} and token {1}...", userName, customerToken);
+		/// <param name="decryptedCustomerToken">Identifies the user.</param>
+		public void RefreshRoles(String userName, String decryptedCustomerToken) {
+			this.LogVerbose("RoleCache: Refreshing roles for user {0} and token {1}...", userName, decryptedCustomerToken);
 			try {
 				using (PersonifyIMService imService = PersonifyIMService.NewPersonifyIMService()) {
-					String[] roles = imService.GetCustomerRoles(customerToken);
+					String[] roles = imService.GetCustomerRoles(decryptedCustomerToken);
 					this._rolesByUserName[userName] = roles;
 					this.ResetKnownRoles();
 					this.LogVerbose("RoleCache: User {0} has roles {1}.", userName, String.Join(", ", roles));

@@ -41,12 +41,34 @@ namespace Msec.Personify.Services {
 			Debug.Assert(this._service != null);
 			Debug.Assert(encryptedCustomerToken != null);
 
-			CustomerTokenDecryptResult result = WebPersonifySsoService.ExecuteServiceCall(
-				() => this._service.CustomerTokenDecrypt(this.Credentials.UserName, this.Credentials.Password, this.Credentials.Block, encryptedCustomerToken),
+			SSOCustomerTokenIsValidResult result = WebPersonifySsoService.ExecuteServiceCall(
+				() => this._service.SSOCustomerTokenIsValid(this.Credentials.UserName, this.Credentials.Password, encryptedCustomerToken),
 				callResult => callResult.Errors);
-			String decryptedCustomerToken = result.CustomerToken;
-			this.LogVerbose("CustomerTokenDecrypt(userName, password, block, {0}) returned decrypted token {1}.", encryptedCustomerToken, decryptedCustomerToken);
-			return decryptedCustomerToken;
+			Boolean isValid = result.Valid;
+			if (isValid) {
+				this.LogVerbose("WebPersonifySsoService: Customer token {0} is valid and returned decrypted value {1}.", encryptedCustomerToken, result.NewCustomerToken);
+				return result.NewCustomerToken;
+			}
+
+			try {
+				CustomerTokenDecryptResult decryptResult = WebPersonifySsoService.ExecuteServiceCall(
+					() => this._service.CustomerTokenDecrypt(this.Credentials.UserName, this.Credentials.Password, this.Credentials.Block, encryptedCustomerToken),
+					callResult => callResult.Errors);
+				String decryptedCustomerToken = decryptResult.CustomerToken;
+				if (decryptedCustomerToken != null) {
+					this.LogInformation("SSOCustomerTokenIsValid returned false, but DecryptCustomerTokenCore returned a decrypted token.  Returning true.");
+					return decryptedCustomerToken;
+				}
+			}
+			catch (Exception ex) {
+				if (!ex.CanBeHandledSafely()) {
+					throw;
+				}
+				this.LogError("Error occurred calling DecryptCustomerTokenCore(): {0}", ex);
+			}
+
+			this.LogVerbose("WebPersonifySsoService: Customer token {0} is not valid.", encryptedCustomerToken);
+			return null;
 		}
 		/// <summary>
 		/// Encrypts a vendor token using the return URL specified.
@@ -98,53 +120,20 @@ namespace Msec.Personify.Services {
 		/// <summary>
 		/// Returns the customer name/identifier from the customer token specified.
 		/// </summary>
-		/// <param name="customerToken">The customer token to translate to a customer name/identifier.</param>
+		/// <param name="decryptedCustomerToken">The customer token to translate to a customer name/identifier.</param>
 		/// <returns>The customer's user name.</returns>
-		protected override String GetCustomerNameCore(CustomerToken customerToken) {
+		protected override String GetCustomerNameCore(String decryptedCustomerToken) {
 			Debug.Assert(this._service != null);
-			if (customerToken == null) {
-				throw new ArgumentNullException("customerToken");
+			if (decryptedCustomerToken == null) {
+				throw new ArgumentNullException("decryptedCustomerToken");
 			}
 
-			String decryptedCustomerToken = customerToken.Decrypt();
 			TIMSSCustomerIdentifierGetResult timssResult = WebPersonifySsoService.ExecuteServiceCall(
 				() => this._service.TIMSSCustomerIdentifierGet(this.Credentials.UserName, this.Credentials.Password, decryptedCustomerToken),
 				callResult => callResult.Errors);
 			this.LogVerbose("TIMSSCustomerIdentifierGet(userName, password, {0}) returned user name {1}.", decryptedCustomerToken, timssResult.CustomerIdentifier);
 			String[] parts = timssResult.CustomerIdentifier.Split('|');
 			return parts[0];
-		}
-		/// <summary>
-		/// Returns a value indicating if the customer token specified is valid.
-		/// </summary>
-		/// <param name="encryptedCustomerToken">The customer token to validate.</param>
-		/// <returns><c>true</c> if the customer token is valid; otherwise, <c>false</c>.</returns>
-		protected override Boolean IsCustomerTokenValidCore(String encryptedCustomerToken) {
-			Debug.Assert(encryptedCustomerToken != null);
-
-			SSOCustomerTokenIsValidResult result = WebPersonifySsoService.ExecuteServiceCall(
-				() => this._service.SSOCustomerTokenIsValid(this.Credentials.UserName, this.Credentials.Password, encryptedCustomerToken),
-				callResult => callResult.Errors);
-			Boolean isValid = result.Valid;
-
-			if (!isValid) {
-				try {
-					String decryptedCustomerToken = this.DecryptCustomerTokenCore(encryptedCustomerToken);
-					if (decryptedCustomerToken != null) {
-						this.LogInformation("SSOCustomerTokenIsValid returned false, but DecryptCustomerTokenCore returned a decrypted token.  Returning true.");
-						return true;
-					}
-				}
-				catch (Exception ex) {
-					if (!ex.CanBeHandledSafely()) {
-						throw;
-					}
-					this.LogError("Error occurred calling DecryptCustomerTokenCore(): {0}", ex);
-				}
-			}
-
-			this.LogVerbose("SSOCustomerTokenIsValid(userName, password, block, {0}) returned Valid={1} with NewCustomerToken={2}.", encryptedCustomerToken, isValid, result.NewCustomerToken);
-			return isValid;
 		}
 		/// <summary>
 		/// Logs out a customer.

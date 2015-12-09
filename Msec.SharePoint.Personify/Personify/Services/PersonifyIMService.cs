@@ -84,21 +84,21 @@ namespace Msec.Personify.Services {
 		/// <summary>
 		/// Returns the roles for a customer token.
 		/// </summary>
-		/// <param name="customerToken">Identifies the customer.</param>
+		/// <param name="decryptedCustomerToken">Identifies the customer.</param>
 		/// <returns>The roles for the customer.</returns>
-		public String[] GetCustomerRoles(CustomerToken customerToken) {
+		public String[] GetCustomerRoles(String decryptedCustomerToken) {
 			this.ThrowIfDisposed();
-			if (customerToken == null)
-				throw new ArgumentNullException("customerToken");
+			if (decryptedCustomerToken == null)
+				throw new ArgumentNullException("decryptedCustomerToken");
 
-			return PersonifyIMService.Execute(() => this.GetCustomerRolesCore(customerToken));
+			return PersonifyIMService.Execute(() => this.GetCustomerRolesCore(decryptedCustomerToken));
 		}
 		/// <summary>
 		/// Returns the roles for a customer token.
 		/// </summary>
 		/// <param name="customerToken">Identifies the customer.</param>
 		/// <returns>The roles for the customer.</returns>
-		protected abstract String[] GetCustomerRolesCore(CustomerToken customerToken);
+		protected abstract String[] GetCustomerRolesCore(String decryptedCustomerToken);
 		/// <summary>
 		/// Returns the roles for a customer.
 		/// </summary>
